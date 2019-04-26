@@ -13,6 +13,10 @@ public class LinearEquations {
         try{
             System.out.println("Enter value of variable 'a':");
             a = Double.parseDouble(reader.readLine());
+            if (a == 0){
+                System.out.println("a cannot be zero, try again");
+                a = Double.parseDouble(reader.readLine());
+            }
             System.out.println("Enter value of variable 'b':");
             b = Double.parseDouble(reader.readLine());
             x = (-b/a);
