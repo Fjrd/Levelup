@@ -19,7 +19,7 @@ public class QuadraticEquation {
     }
 
 
-    public static void inputVariables(){
+    public static void inputVariables() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try {
             System.out.println("Input a:");
@@ -33,39 +33,38 @@ public class QuadraticEquation {
         }
     }
 
-    private static void calculateDiscriminant(){
+    private static void calculateDiscriminant() {
         d = Math.pow(b, 2) - 4.0 * a * c;
     }
 
-    private static void calculateAndPrintRoots(){
+    private static void calculateAndPrintRoots() {
         if (d > 0.0){
-            x1 = (-b + Math.pow(d, 0.5)) / (2.0 * a);
-            x2 = (-b - Math.pow(d, 0.5)) / (2.0 * a);
-            printSolution(x1, x2);
+            x1 = (-b + Math.sqrt(d)) / (2.0 * a);
+            x2 = (-b - Math.sqrt(d)) / (2.0 * a);
+            printTwoRoots(x1, x2);
         }
-        else if(d == 0.0){
+        else if (d == 0.0) {
             x1 = -b / (2.0 * a);
-            printSolution(x1);
+            printOneRoots(x1);
         }
         else
-        printSolution();
+        printNoRoots();
 
 
     }
 
-    // two roots
-    private static void printSolution(double x1, double x2){
+    private static void printTwoRoots(double x1, double x2) {
         System.out.println("The roots are: " + x1 + " and " + x2);
 
     }
 
-    // one root
-    private static void printSolution(double x1){
+
+    private static void printOneRoots(double x1) {
         System.out.println("The root is: " + x1);
     }
 
-    // no roots
-    private static void printSolution(){
+
+    private static void printNoRoots() {
         System.out.println("The equation has no real roots.");
     }
 
