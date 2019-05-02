@@ -1,4 +1,4 @@
-package homework.lesson03.SmartBride;
+package homework.lesson03.smartBride;
 
 public enum Names {
     ALEXANDER,

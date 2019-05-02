@@ -1,4 +1,4 @@
-package homework.lesson03.SmartBride;
+package homework.lesson03.smartBride;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -6,33 +6,35 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
 
-public class CSVParcer {
+public class CSVParser {
     String fileName = "";
-    BufferedReader reader = null;
     ArrayList<Suitor> suitors = new ArrayList<Suitor>();
-    int numberOfRandomSuitors = 0;
-    boolean readFromFile = false;
+    int numberOfGeneratedSuitors = 0;
+    boolean isReadingFromFile = false;
 
     private void greetings() {
-        System.out.println("Enter path to .csv file like \"/home/username/package/test.csv\" " +
-                "or \"random\" to test some random dataset:");
+        System.out.println(
+                "Enter path to .csv file like " +
+                        "\"/home/username/package/test.csv\" " +
+                        "or \"random\" to test some random dataset:");
     }
 
     public void inputFilePathOrRandom() {
         greetings();
+
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String line = reader.readLine();
             if (line.equals("random")) {
                 System.out.println("Enter the number of suitor objects to generate:");
-                numberOfRandomSuitors = Integer.parseInt(reader.readLine());
+                numberOfGeneratedSuitors = Integer.parseInt(reader.readLine());
                 // TODO: 02.05.19 проверка введенных значений (целое, неотрицательное и тд)
             }
             else {
-                readFromFile = true;
+                isReadingFromFile = true;
                 fileName = line;
+                // TODO: 02.05.19 добавить проверку корректности введенного адреса
+                // TODO: 02.05.19 использовать Path
             }
-
-            // TODO: 02.05.19 добавить проверку корректности введенного адреса
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -40,41 +42,35 @@ public class CSVParcer {
     }
 
     public void fillArrayWithRandom() {
-        for (int i = 0; i < numberOfRandomSuitors; i++) {
+        for (int i = 0; i < numberOfGeneratedSuitors; i++) {
             Random random = new Random();
-            suitors.add(new Suitor((Names.values()[new Random().nextInt(Names.values().length)]).toString(), 1 + random.nextInt(200)));
+            Names randomName = Names.values()[new Random().nextInt(Names.values().length)];
+            int randomIq = 1 + random.nextInt(200);
+            suitors.add(new Suitor(randomName.toString(), randomIq));
         }
     }
 
-    public void parseFile() {
+    public void parseCSVFile() {
         String line = "";
-        try{
-            reader = new BufferedReader(new FileReader(fileName));
+        try(BufferedReader reader = new BufferedReader(new FileReader(fileName))){
             while ((line = reader.readLine())!= null){
-                String[] tokens = line.split(",");
-                suitors.add(new Suitor(tokens[0], Integer.parseInt(tokens[1])));
+                String[] parts = line.split(",");
+                suitors.add(new Suitor(parts[0],
+                        Integer.parseInt(parts[1])));
             }
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-        finally {
-            try{
-                reader.close();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public void sortSuitorsListByIQ() {
-        class SortByIQ implements Comparator<Suitor> {
+        class SortByIq implements Comparator<Suitor> {
             public int compare (Suitor a, Suitor b){
-                return a.getIq() - b.getIq();
+                return -(a.getIq() - b.getIq());
             }
         }
-        Collections.sort(suitors, new SortByIQ());
+        Collections.sort(suitors, new SortByIq());
     }
 
     public void printListWithRating() {
