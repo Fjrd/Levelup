@@ -1,4 +1,4 @@
 package homework.lesson03;
 
-public class CSV {
+public class bubbleSort {
 }
