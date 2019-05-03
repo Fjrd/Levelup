@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
 
-public class CSVParser {
+public class SmartBride {
     String fileName = "";
     ArrayList<Suitor> suitors = new ArrayList<Suitor>();
     int numberOfGeneratedSuitors = 0;
@@ -27,7 +27,7 @@ public class CSVParser {
             if (line.equals("random")) {
                 System.out.println("Enter the number of suitor objects to generate:");
                 numberOfGeneratedSuitors = Integer.parseInt(reader.readLine());
-                // TODO: 02.05.19 проверка введенных значений (целое, неотрицательное и тд)
+                // TODO: 02.05.19 добавить проверку введенных значений (целое, неотрицательное и тд)
             }
             else {
                 isReadingFromFile = true;
@@ -41,7 +41,7 @@ public class CSVParser {
         }
     }
 
-    public void fillArrayWithRandom() {
+    public void fillArrayWithRandomDataSet() {
         for (int i = 0; i < numberOfGeneratedSuitors; i++) {
             Random random = new Random();
             Names randomName = Names.values()[new Random().nextInt(Names.values().length)];

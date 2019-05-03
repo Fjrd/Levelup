@@ -3,15 +3,15 @@ package homework.lesson03.smartBride;
 public class Main {
     public static void main(String[] args) {
 
-        CSVParser csvParser = new CSVParser();
-        csvParser.inputFilePathOrRandom();
+        SmartBride smartBride = new SmartBride();
+        smartBride.inputFilePathOrRandom();
 
-        if (csvParser.isReadingFromFile)
-            csvParser.parseCSVFile();
+        if (smartBride.isReadingFromFile)
+            smartBride.parseCSVFile();
         else
-            csvParser.fillArrayWithRandom();
+            smartBride.fillArrayWithRandomDataSet();
 
-        csvParser.sortSuitorsListByIQ();
-        csvParser.printListWithRating();
+        smartBride.sortSuitorsListByIQ();
+        smartBride.printListWithRating();
     }
 }
