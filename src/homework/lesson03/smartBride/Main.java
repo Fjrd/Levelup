@@ -4,7 +4,10 @@ public class Main {
     public static void main(String[] args) {
 
         SmartBride smartBride = new SmartBride();
-        smartBride.inputFilePathOrRandom();
+        smartBride.greetings();
+        System.out.println(smartBride.inputNewCommand());
+        System.out.println(smartBride.inputNewCommand());
+        /*smartBride.identifyCommand();
 
         if (smartBride.isReadingFromFile)
             smartBride.parseCSVFile();
@@ -13,5 +16,7 @@ public class Main {
 
         smartBride.sortSuitorsListByIQ();
         smartBride.printListWithRating();
+
+         */
     }
 }

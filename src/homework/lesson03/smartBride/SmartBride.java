@@ -12,40 +12,51 @@ public class SmartBride {
     int numberOfGeneratedSuitors = 0;
     boolean isReadingFromFile = false;
 
-    private void greetings() {
+    public void greetings() {
         System.out.println(
                 "Enter path to .csv file like " +
                         "\"/home/username/package/test.csv\" " +
                         "or \"random\" to test some random dataset:");
     }
 
-    public void inputFilePathOrRandom() {
-        greetings();
-
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+    public String inputNewCommand(){
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))){
             String line = reader.readLine();
-            if (line.equals("random")) {
-                System.out.println("Enter the number of suitor objects to generate:");
-                numberOfGeneratedSuitors = Integer.parseInt(reader.readLine());
-                // TODO: 02.05.19 добавить проверку введенных значений (целое, неотрицательное и тд)
-            }
-            else {
-                isReadingFromFile = true;
-                fileName = line;
-                // TODO: 02.05.19 добавить проверку корректности введенного адреса
-                // TODO: 02.05.19 использовать Path
-            }
+            return line;
         }
         catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
+
+
+    public void identifyCommand() {
+        String command = inputNewCommand();
+        if (command.equals("random")) {
+            System.out.println("Enter the number of suitor objects to generate:");
+            String number = inputNewCommand();
+            System.out.println(number);
+            //if (isInteger(line) && isAboveZero(line)){
+            //    numberOfGeneratedSuitors = Integer.parseInt(line);
+            //}
+            //else
+                System.out.println("Number must be above zero, try again:");
+
+        }
+        else {
+            isReadingFromFile = true;
+            fileName = command;
+            // TODO: 03.05.19 path 
+        }
+    }
+
+
     public void fillArrayWithRandomDataSet() {
         for (int i = 0; i < numberOfGeneratedSuitors; i++) {
-            Random random = new Random();
             Names randomName = Names.values()[new Random().nextInt(Names.values().length)];
-            int randomIq = 1 + random.nextInt(200);
+            int randomIq = 60 + new Random().nextInt(140);
             suitors.add(new Suitor(randomName.toString(), randomIq));
         }
     }
@@ -77,5 +88,24 @@ public class SmartBride {
         for (Suitor suitor : suitors){
             System.out.println(1 + suitors.indexOf(suitor)+ " " + suitor.toString());
         }
+    }
+
+    public static boolean isInteger(String str)
+    {
+        try
+        {
+            int integer = Integer.parseInt(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isAboveZero(String str){
+        if (Integer.parseInt(str) >= 0)
+            return true;
+        return false;
     }
 }

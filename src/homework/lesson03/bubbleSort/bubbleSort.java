@@ -5,21 +5,30 @@ import java.util.Random;
 
 public class bubbleSort {
 
-    static int[] fillArrayWithRandomValues(int arr[]){
+    public static void main(String[] args) {
+        int[] arr = new int[15];
+        fillArrayWithRandomValues(arr);
+        System.out.println("Generated unsorted array:");
+        printArray(arr);
+        sortArrayUsingBubbleSort(arr);
+        System.out.println("Sorted array:");
+        printArray(arr);
+    }
+
+    static int[] fillArrayWithRandomValues(int arr[]) {
         for (int i = 0; i < arr.length; i++) {
             arr[i] = 1 + new Random().nextInt(arr.length);
         }
         return arr;
     }
 
-    static void printArray(int arr[]){
+    static void printArray(int arr[]) {
         System.out.println(Arrays.toString(arr));
     }
 
-    //bubble sorting
-    static void sortArray(int[] arr){
+    static void sortArrayUsingBubbleSort(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length - 1 - i; j++) { //{5, 2, 4, 9, 1}
+            for (int j = 0; j < arr.length - 1 - i; j++) {
                 if (arr[j] > arr[j + 1]){
                     int temp = arr[j];
                     arr[j] = arr[j + 1];
@@ -28,16 +37,4 @@ public class bubbleSort {
             }
         }
     }
-
-
-    public static void main(String[] args) {
-        int[] arr = new int[15];
-        fillArrayWithRandomValues(arr);
-        System.out.println("Generated unsorted array:");
-        printArray(arr);
-        sortArray(arr);
-        System.out.println("Sorted array:");
-        printArray(arr);
-    }
-
 }
