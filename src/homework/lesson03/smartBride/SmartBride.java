@@ -10,8 +10,8 @@ import java.util.Comparator;
 import java.util.Random;
 
 public class SmartBride {
-    ArrayList<Suitor> suitors = new ArrayList<Suitor>();
-    BufferedReader reader = null;
+    private ArrayList<Suitor> suitors = new ArrayList<>();
+    private BufferedReader reader = null;
 
     public void greetings() {
         System.out.println(
@@ -115,9 +115,7 @@ public class SmartBride {
     }
 
     private static boolean isAboveZero(String str) {
-        if (Integer.parseInt(str) >= 0)
-            return true;
-        return false;
+        return (Integer.parseInt(str) >= 0);
     }
 
     private void closeInputStream() {
