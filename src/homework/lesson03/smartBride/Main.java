@@ -5,18 +5,8 @@ public class Main {
 
         SmartBride smartBride = new SmartBride();
         smartBride.greetings();
-        System.out.println(smartBride.inputNewCommand());
-        System.out.println(smartBride.inputNewCommand());
-        /*smartBride.identifyCommand();
-
-        if (smartBride.isReadingFromFile)
-            smartBride.parseCSVFile();
-        else
-            smartBride.fillArrayWithRandomDataSet();
-
+        smartBride.identifyCommand();
         smartBride.sortSuitorsListByIQ();
         smartBride.printListWithRating();
-
-         */
     }
 }

@@ -1,16 +1,17 @@
 package homework.lesson03.smartBride;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
 
 public class SmartBride {
-    String fileName = "";
     ArrayList<Suitor> suitors = new ArrayList<Suitor>();
-    int numberOfGeneratedSuitors = 0;
-    boolean isReadingFromFile = false;
+    BufferedReader reader = null;
 
     public void greetings() {
         System.out.println(
@@ -19,8 +20,9 @@ public class SmartBride {
                         "or \"random\" to test some random dataset:");
     }
 
-    public String inputNewCommand(){
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))){
+    public String inputNewCommand() {
+        try {
+            reader = new BufferedReader(new InputStreamReader(System.in));
             String line = reader.readLine();
             return line;
         }
@@ -30,41 +32,46 @@ public class SmartBride {
         }
     }
 
-
-
     public void identifyCommand() {
-        String command = inputNewCommand();
-        if (command.equals("random")) {
-            System.out.println("Enter the number of suitor objects to generate:");
-            String number = inputNewCommand();
-            System.out.println(number);
-            //if (isInteger(line) && isAboveZero(line)){
-            //    numberOfGeneratedSuitors = Integer.parseInt(line);
-            //}
-            //else
-                System.out.println("Number must be above zero, try again:");
-
-        }
-        else {
-            isReadingFromFile = true;
-            fileName = command;
-            // TODO: 03.05.19 path 
+        while (true) {
+            String command = inputNewCommand();
+            if (command.equals("random")) {
+                System.out.println("Enter the number of suitor objects to generate:");
+                while (true) {
+                    String number = inputNewCommand();
+                    if (isInteger(number) && isAboveZero(number)) {
+                        fillArrayWithRandomDataSet(Integer.parseInt(number));
+                        break;
+                    } else {
+                        System.out.println("Number of suitors must be an integer above zero, try again:");
+                    }
+                }
+                closeInputStream();
+                break;
+            } else if (Files.exists(Paths.get(command))) {
+                parseCSVFile(Paths.get(command));
+                closeInputStream();
+                break;
+            }
+            else {
+                System.out.println("unknown command, try again:");
+            }
         }
     }
 
-
-    public void fillArrayWithRandomDataSet() {
-        for (int i = 0; i < numberOfGeneratedSuitors; i++) {
+    public void fillArrayWithRandomDataSet(int number) {
+        for (int i = 0; i < number; i++) {
             Names randomName = Names.values()[new Random().nextInt(Names.values().length)];
             int randomIq = 60 + new Random().nextInt(140);
             suitors.add(new Suitor(randomName.toString(), randomIq));
         }
     }
 
-    public void parseCSVFile() {
+    public void parseCSVFile(Path path) {
         String line = "";
-        try(BufferedReader reader = new BufferedReader(new FileReader(fileName))){
-            while ((line = reader.readLine())!= null){
+        try {
+            reader = new BufferedReader(new FileReader(String.valueOf(path)));
+            while ((line = reader.readLine())!= null) {
                 String[] parts = line.split(",");
                 suitors.add(new Suitor(parts[0],
                         Integer.parseInt(parts[1])));
@@ -73,11 +80,14 @@ public class SmartBride {
         catch (IOException e) {
             e.printStackTrace();
         }
+        finally {
+            closeInputStream();
+        }
     }
 
     public void sortSuitorsListByIQ() {
         class SortByIq implements Comparator<Suitor> {
-            public int compare (Suitor a, Suitor b){
+            public int compare (Suitor a, Suitor b) {
                 return -(a.getIq() - b.getIq());
             }
         }
@@ -85,13 +95,12 @@ public class SmartBride {
     }
 
     public void printListWithRating() {
-        for (Suitor suitor : suitors){
+        for (Suitor suitor : suitors) {
             System.out.println(1 + suitors.indexOf(suitor)+ " " + suitor.toString());
         }
     }
 
-    public static boolean isInteger(String str)
-    {
+    private static boolean isInteger(String str) {
         try
         {
             int integer = Integer.parseInt(str);
@@ -103,9 +112,17 @@ public class SmartBride {
         return true;
     }
 
-    public static boolean isAboveZero(String str){
+    private static boolean isAboveZero(String str) {
         if (Integer.parseInt(str) >= 0)
             return true;
         return false;
+    }
+
+    private void closeInputStream() {
+        try {
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
