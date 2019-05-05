@@ -15,18 +15,17 @@ public class bubbleSort {
         printArray(arr);
     }
 
-    static int[] fillArrayWithRandomValues(int arr[]) {
+    private static void fillArrayWithRandomValues(int arr[]) {
         for (int i = 0; i < arr.length; i++) {
             arr[i] = 1 + new Random().nextInt(arr.length);
         }
-        return arr;
     }
 
-    static void printArray(int arr[]) {
+    private static void printArray(int arr[]) {
         System.out.println(Arrays.toString(arr));
     }
 
-    static void sortArrayUsingBubbleSort(int[] arr) {
+    private static void sortArrayUsingBubbleSort(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr.length - 1 - i; j++) {
                 if (arr[j] > arr[j + 1]){
