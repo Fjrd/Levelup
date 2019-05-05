@@ -54,7 +54,7 @@ public class SmartBride {
                 break;
             }
             else {
-                System.out.println("unknown command, try again:");
+                System.out.println("unknown command or such file does not exist, try again:");
             }
         }
     }
@@ -71,10 +71,12 @@ public class SmartBride {
         String line = "";
         try {
             reader = new BufferedReader(new FileReader(String.valueOf(path)));
+
+            // TODO: 05.05.19 data validatioin
+
             while ((line = reader.readLine())!= null) {
                 String[] parts = line.split(",");
-                suitors.add(new Suitor(parts[0],
-                        Integer.parseInt(parts[1])));
+                suitors.add(new Suitor(parts[0], Integer.parseInt(parts[1])));
             }
         }
         catch (IOException e) {
@@ -103,7 +105,7 @@ public class SmartBride {
     private static boolean isInteger(String str) {
         try
         {
-            int integer = Integer.parseInt(str);
+            Integer.parseInt(str);
         }
         catch(NumberFormatException nfe)
         {
