@@ -20,43 +20,20 @@ public class SmartBride {
                         "or \"random\" to test some random dataset:");
     }
 
-    public String inputNewCommand() {
-        try {
-            reader = new BufferedReader(new InputStreamReader(System.in));
-            String line = reader.readLine();
-            return line;
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            return null;
+    public void printListWithRating() {
+        for (Suitor suitor : suitors) {
+            System.out.println(1 + suitors.indexOf(suitor)+ " " + suitor.toString());
         }
     }
 
-    public void identifyCommand() {
-        while (true) {
-            String command = inputNewCommand();
-            if (command.equals("random")) {
-                System.out.println("Enter the number of suitor objects to generate:");
-                while (true) {
-                    String number = inputNewCommand();
-                    if (isInteger(number) && isAboveZero(number)) {
-                        fillArrayWithRandomDataSet(Integer.parseInt(number));
-                        break;
-                    } else {
-                        System.out.println("Number of suitors must be an integer above zero, try again:");
-                    }
-                }
-                closeInputStream();
-                break;
-            } else if (Files.exists(Paths.get(command))) {
-                parseCSVFile(Paths.get(command));
-                closeInputStream();
-                break;
-            }
-            else {
-                System.out.println("unknown command or such file does not exist, try again:");
+
+    public void sortSuitorsListByIQ() {
+        class SortByIq implements Comparator<Suitor> {
+            public int compare (Suitor a, Suitor b) {
+                return -(a.getIq() - b.getIq());
             }
         }
+        Collections.sort(suitors, new SortByIq());
     }
 
     public void fillArrayWithRandomDataSet(int number) {
@@ -72,7 +49,7 @@ public class SmartBride {
         try {
             reader = new BufferedReader(new FileReader(String.valueOf(path)));
 
-            // TODO: 05.05.19 data validatioin
+            // TODO: 05.05.19 data validation
 
             while ((line = reader.readLine())!= null) {
                 String[] parts = line.split(",");
@@ -87,18 +64,58 @@ public class SmartBride {
         }
     }
 
-    public void sortSuitorsListByIQ() {
-        class SortByIq implements Comparator<Suitor> {
-            public int compare (Suitor a, Suitor b) {
-                return -(a.getIq() - b.getIq());
-            }
+
+    public String inputNewCommand() {
+        try {
+            reader = new BufferedReader(new InputStreamReader(System.in));
+            String line = reader.readLine();
+            return line;
         }
-        Collections.sort(suitors, new SortByIq());
+        catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+//        finally {
+//            try {
+//                reader.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
     }
 
-    public void printListWithRating() {
-        for (Suitor suitor : suitors) {
-            System.out.println(1 + suitors.indexOf(suitor)+ " " + suitor.toString());
+    public void identifyCommand() {
+        while (true) {
+            String command = inputNewCommand();
+
+            //if command is "random"
+            if (command.equals("random")) {
+                System.out.println("Enter the number of suitor objects to generate:");
+                while (true) {
+                    String number = inputNewCommand();
+                    if (isInteger(number) && isPositive(number)) {
+                        fillArrayWithRandomDataSet(Integer.parseInt(number));
+                        break;
+                    } else {
+                        System.out.println("Number of suitors must be an integer above zero, try again:");
+                    }
+                }
+                closeInputStream();
+                break;
+
+                //if command is a path to file
+            } else if (Files.exists(Paths.get(command))) {
+                parseCSVFile(Paths.get(command));
+                closeInputStream();
+                break;
+            }
+
+            //if command unknown
+            else {
+                System.out.println("unknown command or such file does not exist, try again:");
+            }
         }
     }
 
@@ -114,7 +131,7 @@ public class SmartBride {
         return true;
     }
 
-    private static boolean isAboveZero(String str) {
+    private static boolean isPositive(String str) {
         return (Integer.parseInt(str) >= 0);
     }
 
