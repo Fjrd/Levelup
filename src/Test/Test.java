@@ -1,5 +1,6 @@
 package Test;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 public class Test {
@@ -56,6 +57,7 @@ public class Test {
         array[i] = array[j];
         array[j] = temp;
     }
+
 
     public static void main(String a[]){
 
