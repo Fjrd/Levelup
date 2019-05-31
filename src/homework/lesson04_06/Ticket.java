@@ -1,4 +1,4 @@
-package homework.lesson04;
+package homework.lesson04_06;
 
 import java.util.Date;
 
